@@ -8,4 +8,4 @@ Route::get('/', function () {
 
 Route::get('/admin', function () {
     return view('dashboard.layouts.app');
-});
+})->middleware(['auth', 'verified'])->name('dashboard');

@@ -4,6 +4,22 @@
 @section('header', 'Login to your account')
 
 @section('content')
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    {{-- Show validation errors --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form class="form-auth-small" method="POST" action="{{ route('login') }}">
         @csrf
         <div class="form-group">
@@ -13,6 +29,7 @@
         <div class="form-group">
             <label for="password" class="control-label sr-only">Password</label>
             <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+
         </div>
         <div class="form-group clearfix">
             <label class="fancy-checkbox element-left">
