@@ -18,10 +18,17 @@
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="page-login.html" class="icon-menu"><i class="icon-login"></i></a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="icon-menu btn btn-link"
+                                style="padding:0; border:none; background:none;">
+                                <i class="icon-logout"></i>
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
+
         </div>
     </div>
 </nav>
