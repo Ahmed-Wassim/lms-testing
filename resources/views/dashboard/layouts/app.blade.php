@@ -37,10 +37,8 @@
                         </div> --}}
                         @yield('crumbs')
                     </div>
-
-                    @yield('content')
-
                 </div>
+                @yield('content')
             </div>
         </div>
 

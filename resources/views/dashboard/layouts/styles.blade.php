@@ -1,4 +1,4 @@
-<title>:: Lucid :: Home</title>
+<title>@yield('title', 'Dashboard')</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -20,4 +20,11 @@
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{{ asset('dashboard/assets/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('dashboard/assets/css/color_skins.css') }}">
+
+<style>
+    .fl-wrapper {
+        z-index: 999999 !important;
+    }
+</style>
+
 @stack('styles')
