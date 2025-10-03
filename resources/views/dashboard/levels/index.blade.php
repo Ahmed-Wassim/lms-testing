@@ -51,7 +51,7 @@
 
                                             <!-- Delete Button -->
                                             <button type="button" class="btn btn-sm btn-danger ml-2" data-toggle="modal"
-                                                data-target="#deleteModal">
+                                                data-target="#deleteModal{{ $loop->iteration }}">
                                                 <i class="fa fa-trash"></i> Delete
                                             </button>
                                     </tr>
