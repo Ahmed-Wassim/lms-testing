@@ -48,12 +48,4 @@
             <span class="helper-text">Already have an account? <a href="{{ route('login') }}">Login</a></span>
         </div>
     </form>
-
-    <div class="separator-linethrough"><span>OR</span></div>
-    <button class="btn btn-signin-social">
-        <i class="fa fa-facebook-official facebook-color"></i> Sign in with Facebook
-    </button>
-    <button class="btn btn-signin-social">
-        <i class="fa fa-twitter twitter-color"></i> Sign in with Twitter
-    </button>
 @endsection
