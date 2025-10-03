@@ -50,8 +50,12 @@
                             </ul>
                         </li>
                         <li class="{{ isActive(['levels.*']) }}">
-                            <a href="{{ route('levels.index') }}"><i class="icon-home"></i>
+                            <a href="{{ route('levels.index') }}"><i class="icon-arrow-up"></i>
                                 <span>Levels</span></a>
+                        </li>
+                        <li class="{{ isActive(['tags.*']) }}">
+                            <a href="{{ route('tags.index') }}"><i class="icon-tag"></i>
+                                <span>Tags</span></a>
                         </li>
                     </ul>
                 </nav>

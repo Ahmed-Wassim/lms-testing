@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json(['error' => 'Resource not found'], 404);
             }
-            return response()->view('errors.404', [], 404);
+            return response()->view('dashboard.errors.404', [], 404);
 
         });
 
@@ -46,6 +46,6 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
-            return response()->view('errors.500', ['message' => $e->getMessage()], 500);
+            return response()->view('dashboard.errors.500', ['message' => $e->getMessage()], 500);
         });
     })->create();
