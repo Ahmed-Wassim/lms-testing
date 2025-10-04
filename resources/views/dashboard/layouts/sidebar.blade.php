@@ -57,6 +57,13 @@
                             <a href="{{ route('tags.index') }}"><i class="icon-tag"></i>
                                 <span>Tags</span></a>
                         </li>
+                        <li class="{{ isActive(['courses.*']) }}">
+                            <a href="#App" class="has-arrow"><i class="icon-grid"></i> <span>Courses</span></a>
+                            <ul>
+                                <li><a href="{{ route('courses.index') }}">Index</a></li>
+                                <li><a href="{{ route('courses.create') }}">Create Course</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>

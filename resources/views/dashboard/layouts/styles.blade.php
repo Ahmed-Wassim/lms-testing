@@ -17,6 +17,8 @@
     href="{{ asset('dashboard/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
 <link rel="stylesheet" href="{{ asset('dashboard/assets/vendor/toastr/toastr.min.css') }}">
 
+@stack('styles')
+
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{{ asset('dashboard/assets/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('dashboard/assets/css/color_skins.css') }}">
@@ -26,5 +28,3 @@
         z-index: 999999 !important;
     }
 </style>
-
-@stack('styles')
