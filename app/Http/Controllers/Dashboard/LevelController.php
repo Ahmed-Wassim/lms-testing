@@ -42,4 +42,21 @@ class LevelController extends Controller
 
         return redirect()->route('levels.index')->with('success', 'The Level has been deleted successfully');
     }
+
+    public function getLevel(Request $request)
+    {
+        $search = $request->get('q', '');
+
+        $query = Level::query();
+
+        if (!empty($search)) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        $levels = $query->limit(10)->get(['id', 'name as text']);
+
+        return response()->json([
+            'results' => $levels
+        ]);
+    }
 }

@@ -11,3 +11,10 @@ if (!function_exists('isActive')) {
         return '';
     }
 }
+
+if (!function_exists('str_limit_15')) {
+    function str_limit_15($string, $end = '...')
+    {
+        return \Illuminate\Support\Str::limit($string, 15, $end);
+    }
+}

@@ -33,6 +33,7 @@
                                     <th>Slug</th>
                                     <th>User</th>
                                     <th>Level</th>
+                                    <th>Tag</th>
                                     <th>Price</th>
                                     <th>Description</th>
                                     <th>Actions</th>
@@ -42,16 +43,17 @@
                                 @forelse($courses as $course)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td><span>{{$course->name}}</span></td>
-                                        <td>{{ $course->slug }} </td>
+                                        <td><span>{{str_limit_15($course->name)}}</span></td>
+                                        <td>{{ str_limit_15($course->slug) }} </td>
                                         <td>{{ $course->user->name }}</td>
                                         <td>{{ $course->level->name }}</td>
+                                        <td>{{ $course->tags->first()->name }}</td>
                                         <td>{{ $course->price }}</td>
-                                        <td>{{ $course->description }}</td>
+                                        <td>{{ str_limit_15($course->description) }}</td>
 
                                         <td>
                                             <!-- Edit Link -->
-                                            <a href="{{ route('courses.edit', $tag->slug) }}" class="btn btn-sm btn-info">
+                                            <a href="{{ route('courses.edit', $course->slug) }}" class="btn btn-sm btn-info">
                                                 <i class="fa fa-edit"></i> Edit
                                             </a>
 
@@ -62,7 +64,7 @@
                                             </button>
                                     </tr>
 
-                                    @include('dashboard.levels.delete')
+                                    @include('dashboard.courses.delete')
                                 @empty
                                     <tr>
                                         <td colspan="8" class="text-center">No courses found</td>

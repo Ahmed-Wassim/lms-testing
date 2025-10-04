@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.app')
 
-@section('title', 'Create Course')
+@section('title', 'Edit Course')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('dashboard/assets/vendor/select2/select2.css') }}" />
@@ -12,24 +12,33 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="header">
-                    <h2>Create Item</h2>
+                    <h2>Edit Course</h2>
                 </div>
                 <div class="body">
-                    <form id="item-form" method="POST" action="{{ route('courses.store') }}">
+                    <form id="item-form" method="POST" action="{{ route('courses.update', $course->id) }}">
                         @csrf
+                        @method('PUT')
 
                         {{-- Row 1 --}}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
-                                    <input id="name" name="name" type="text" class="form-control" required>
+                                    <input id="name" name="name" type="text" class="form-control"
+                                        value="{{ old('name', $course->name) }}" required>
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="price">Price <span class="text-danger">*</span></label>
-                                    <input id="price" name="price" type="number" step="0.01" class="form-control" required>
+                                    <input id="price" name="price" type="number" step="0.01" class="form-control"
+                                        value="{{ old('price', $course->price) }}" required>
+                                    @error('price')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -38,28 +47,51 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-6">
                                 <div class="mb-3">
-                                    <label><strong>Basic</strong></label>
+                                    <label><strong>Level</strong></label>
                                     <select class="form-control show-tick ms select2" data-placeholder="Select"
                                         id="basic-select" name="level_id">
                                         <option></option>
                                         @foreach ($levels as $level)
-                                            <option value="{{ $level->id }}">{{ $level->name }}</option>
+                                            <option value="{{ $level->id }}" {{ old('level_id', $course->level_id) == $level->id ? 'selected' : '' }}>
+                                                {{ $level->name }}
+                                            </option>
                                         @endforeach
                                     </select>
+                                    @error('level_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-6">
                                 <div class="mb-3">
                                     <label><strong>User</strong></label>
-                                    <input type="hidden" id="loadingA-select" name="user_id" class="form-control" />
+                                    <select id="loadingA-select" name="user_id" class="form-control">
+                                        @if($course->user)
+                                            <option value="{{ $course->user->id }}" selected>
+                                                {{ $course->user->name }}
+                                            </option>
+                                        @endif
+                                    </select>
+                                    @error('user_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-md-6">
                                 <div class="mb-3">
                                     <label><strong>Tag</strong></label>
-                                    <input type="hidden" id="loadingB-select" name="tag_id" class="form-control">
+                                    <select id="loadingB-select" name="tag_id" class="form-control">
+                                        @if($course->tags->isNotEmpty())
+                                            <option value="{{ $course->tags->first()->id }}" selected>
+                                                {{ $course->tags->first()->name }}
+                                            </option>
+                                        @endif
+                                    </select>
+                                    @error('tag_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -70,12 +102,16 @@
                                 <div class="form-group">
                                     <label for="description">Description / Content</label>
                                     <textarea id="markdown-editor" name="description" data-provide="markdown" rows="10"
-                                        class="form-control"></textarea>
+                                        class="form-control">{{ old('description', $course->description) }}</textarea>
+                                    @error('description')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="{{ route('courses.index') }}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </div>
@@ -92,25 +128,22 @@
     <script>
         $(document).ready(function () {
             // Basic Select2
-            $('.select2').select2();
+            $('#basic-select').select2();
 
-            // Loading Data (Route A)
+            // Loading Data (User)
             $('#loadingA-select').select2({
-                placeholder: 'Select from route A',
+                placeholder: 'Select user',
                 allowClear: true,
                 ajax: {
-                    url: '{{ route("users.getUsers") }}',  // change this route name
-                    // type: 'GET',
+                    url: '{{ route("users.getUsers") }}',
                     dataType: 'json',
                     delay: 250,
                     data: function (term) {
-                        console.log("Search term:", term);
                         return {
                             q: term
                         };
                     },
                     processResults: function (data) {
-                        console.log("Select2 got data:", data);
                         return {
                             results: data.results
                         };
@@ -120,17 +153,15 @@
                 minimumInputLength: 1
             });
 
-            // Loading Data (Route B)
+            // Loading Data (Tag)
             $('#loadingB-select').select2({
-                placeholder: 'Select from route B',
+                placeholder: 'Select tag',
                 allowClear: true,
                 ajax: {
-                    url: '{{ route("tags.getTags") }}',  // another route
-                    type: 'GET',
+                    url: '{{ route("tags.getTags") }}',
                     dataType: 'json',
                     delay: 250,
                     data: function (term) {
-                        console.log("Search term:", term);
                         return {
                             q: term
                         };

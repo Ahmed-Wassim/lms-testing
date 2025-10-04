@@ -40,4 +40,28 @@ class TagController extends Controller
 
         return redirect()->route('tags.index')->with('success', 'The tag has been deleted successfully');
     }
+
+    public function getTags(Request $request)
+    {
+        $search = $request->query('q', '');
+
+        $query = Tag::query();
+
+        if (!empty($search)) {
+            $query->containing($search)->get();
+        }
+
+        $tags = $query->limit(10)->get(['id', 'name']);
+
+        $results = $tags->map(function ($tag) {
+            return [
+                'id' => $tag->id,
+                'text' => $tag->getTranslation('name', 'en') // Spatie Tag accessor will handle the JSON automatically
+            ];
+        });
+
+        return response()->json([
+            'results' => $results
+        ]);
+    }
 }
